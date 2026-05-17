@@ -7,134 +7,178 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <style>
-    :root{--bg:#141412;--bg2:#1e1e1c;--bg3:#2a2a27;--bg4:#333330;--text:#e8e6df;--text2:#888780;--text3:#555451;--bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.15);--green:#1D9E75;--gf:rgba(29,158,117,0.12);--gb:rgba(29,158,117,0.3);--red:#E24B4A;--rf:rgba(226,75,74,0.10);--rb:rgba(226,75,74,0.35);--amber:#D4930A;--af:rgba(212,147,10,0.10);--ab:rgba(212,147,10,0.3);--blue:#378ADD;--r:8px;--rl:12px;--mono:'Courier New',Courier,monospace;}
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--mono);background:var(--bg);color:var(--text);min-height:100vh;}
-    .nav{display:flex;border-bottom:0.5px solid var(--bdr2);padding:0 1rem;background:var(--bg2);}
-    .nav-logo{display:flex;align-items:center;gap:7px;font-size:15px;font-weight:600;padding:12px 0;margin-right:16px;color:var(--text);letter-spacing:.5px;}
-    .nav-logo i{color:var(--green);}
-    .nav-tab{padding:12px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);font-family:var(--mono);background:none;border-top:none;border-left:none;border-right:none;}
-    .nav-tab.active{color:var(--green);border-bottom-color:var(--green);}
-    .page{display:none;padding:1.4rem 1rem;max-width:1040px;margin:0 auto;}
-    .page.active{display:block;}
-    .addr-pill{display:inline-block;font-size:11px;color:var(--text2);background:var(--bg2);border:0.5px solid var(--bdr);border-radius:4px;padding:3px 8px;word-break:break-all;}
-    .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
-    .sec-lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.09em;}
-    .sec-sublbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;}
-    .sm-btn{font-size:11px;padding:3px 9px;cursor:pointer;border-radius:4px;background:transparent;border:0.5px solid var(--bdr2);color:var(--text2);font-family:var(--mono);}
-    .sm-btn.on{background:var(--bg3);color:var(--text);border-color:var(--green);}
-    .icon-btn{display:flex;align-items:center;gap:5px;font-size:12px;padding:5px 11px;cursor:pointer;border-radius:var(--r);background:transparent;border:0.5px solid var(--bdr2);color:var(--text);font-family:var(--mono);}
-    .icon-btn:hover{background:var(--bg3);}
-    .icon-btn.spinning i{animation:spin .7s linear infinite;display:inline-block;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .ti-inp{font-family:var(--mono);font-size:12px;padding:6px 10px;background:var(--bg3);color:var(--text);border:0.5px solid var(--bdr2);border-radius:var(--r);outline:none;}
-    .ti-inp:focus{border-color:var(--green);}
-    select.ti-inp{cursor:pointer;color-scheme:dark;}
-    .go-btn{display:flex;align-items:center;gap:5px;font-size:12px;padding:6px 13px;cursor:pointer;border-radius:var(--r);background:var(--green);border:none;color:#fff;font-family:var(--mono);font-weight:600;}
-    .go-btn:hover{opacity:.85;}
-    .setup-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:1.1rem;padding:10px 13px;background:var(--bg2);border-radius:var(--r);border:0.5px solid var(--bdr);}
-    .setup-bar label{font-size:12px;color:var(--text2);}
-    .nbar{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:var(--r);margin-bottom:1rem;font-size:12px;background:var(--af);border:0.5px solid var(--ab);}
-    .nbar i{color:var(--amber);}
-    .nbar a{color:var(--amber);cursor:pointer;text-decoration:underline;}
-    .fleet{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:9px;}
-    @media(max-width:600px){.fleet{grid-template-columns:repeat(2,1fr);}}
-    .fc{background:var(--bg2);border-radius:var(--r);padding:11px 13px;border:0.5px solid var(--bdr);}
-    .fc-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;}
-    .fc-val{font-size:18px;font-weight:600;}
-    .fc-sub{font-size:11px;color:var(--text2);margin-top:2px;}
-    .cg{color:var(--green);}.cr{color:var(--red);}.ca{color:var(--amber);}
-    .tbl-wrap{border:0.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;margin-top:8px;}
-    table{width:100%;border-collapse:collapse;font-size:12px;}
-    th{background:var(--bg2);color:var(--text2);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.07em;padding:8px 11px;text-align:left;border-bottom:0.5px solid var(--bdr);}
-    td{padding:8px 11px;border-bottom:0.5px solid var(--bdr);color:var(--text);font-family:var(--mono);}
-    tr:last-child td{border-bottom:none;}
-    tr:hover td{background:var(--bg3);}
-    .tbl-empty{color:var(--text2);padding:1.2rem;text-align:center;}
-    .badge{display:inline-block;font-size:10px;padding:2px 6px;border-radius:3px;font-weight:600;}
-    .bv{background:var(--gf);color:var(--green);}.bc2{background:rgba(55,138,221,0.12);color:var(--blue);}.bo{background:var(--af);color:var(--amber);}
-    .al{display:flex;align-items:center;gap:7px;font-size:12px;padding:6px 11px;border-radius:var(--r);margin-bottom:3px;animation:fi .25s;}
-    @keyframes fi{from{opacity:0;transform:translateY(-3px);}to{opacity:1;transform:none;}}
-    .al.offline{background:var(--rf);border:0.5px solid var(--rb);}
-    .al.online{background:var(--gf);border:0.5px solid var(--gb);}
-    .al.block{background:var(--af);border:0.5px solid var(--ab);}
-    .al-time{color:var(--text3);font-size:11px;margin-left:auto;flex-shrink:0;}
-    .worker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;margin-top:8px;margin-bottom:1.4rem;}
-    .wcard{background:var(--bg2);border-radius:0 var(--rl) var(--rl) 0;border:0.5px solid var(--bdr);border-left:3px solid var(--green);cursor:pointer;user-select:none;}
-    .wcard.offline{border-left-color:var(--red);background:rgba(226,75,74,0.04);}
-    .wcard.warn{border-left-color:var(--amber);}
-    .wcard-inner{padding:12px 13px;}
-    .wcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-    .wcard-name{font-size:13px;font-weight:600;}
-    .wcard-st{display:flex;align-items:center;gap:5px;}
-    .wcard-st span{font-size:11px;}
-    .sdot{width:8px;height:8px;border-radius:50%;}
-    .sdot.online{background:var(--green);}.sdot.offline{background:var(--red);}.sdot.warn{background:var(--amber);}
-    .st-online{color:var(--green);}.st-offline{color:var(--red);}.st-warn{color:var(--amber);}
-    .wgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-    .wcell{background:var(--bg3);border-radius:var(--r);padding:7px 9px;}
-    .wcell-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;}
-    .wcell-val{font-size:15px;font-weight:600;}
-    .wcell-val.bad{color:var(--red);}.wcell-val.dim{font-size:12px;color:var(--text2);}.wcell-val.ca{color:var(--amber);}
-    .expand-hint{font-size:11px;color:var(--text3);text-align:center;padding:7px 0 2px;display:flex;align-items:center;justify-content:center;gap:4px;}
-    .wdetail{display:none;border-top:0.5px solid var(--bdr);padding:10px 13px 12px;}
-    .wdetail table{width:100%;font-size:12px;border-collapse:collapse;}
-    .wdetail td{padding:3px 0;color:var(--text2);}
-    .wdetail td:last-child{text-align:right;color:var(--text);}
-    .wdetail .hl{color:var(--amber);}
-    @keyframes pulse-r{0%,100%{opacity:1;}50%{opacity:.4;}}
-    .offline-pulse{animation:pulse-r 2s ease-in-out infinite;}
-    .block-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:1.1rem;}
-    .bcs{background:var(--bg2);border-radius:var(--r);padding:11px 13px;border:0.5px solid var(--bdr);}
-    .bcs-coin{font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;font-weight:600;}
-    .bcs-count{font-size:22px;font-weight:600;color:var(--amber);}
-    .bcs-last{font-size:11px;color:var(--text2);margin-top:3px;}
-    .hist-addr-bar{display:flex;gap:8px;margin-bottom:.6rem;flex-wrap:wrap;}
-    .date-row{display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;padding:9px 13px;background:var(--bg2);border-radius:var(--r);border:0.5px solid var(--bdr);}
-    .date-row label{font-size:11px;color:var(--text2);}
-    .preset-btns{display:flex;gap:5px;flex-wrap:wrap;}
-    .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.4rem;}
-    @media(max-width:580px){.charts-grid{grid-template-columns:1fr;}}
-    .chart-card{border:0.5px solid var(--bdr);border-radius:var(--rl);padding:13px;}
-    .chart-title{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px;}
-    .chart-wrap{position:relative;width:100%;height:175px;}
-    .prog-wrap{margin-bottom:1rem;display:none;}
-    .prog-bg{background:var(--bg2);border-radius:4px;height:5px;overflow:hidden;}
-    .prog-fill{background:var(--green);height:5px;width:0%;transition:width .2s;border-radius:4px;}
-    .prog-lbl{font-size:11px;color:var(--text2);margin-top:4px;}
-    .amount-pos{color:var(--green);}
-    .txid-link{color:var(--blue);text-decoration:none;font-size:11px;}
-    .txid-link:hover{text-decoration:underline;}
-    .badge-ok{display:inline-block;font-size:10px;padding:2px 6px;border-radius:3px;background:var(--gf);color:var(--green);}
-    .badge-pend{font-size:10px;color:var(--amber);}
-    .cors-warn{background:var(--af);border:0.5px solid var(--ab);border-radius:var(--r);padding:10px 14px;font-size:12px;line-height:1.65;margin-bottom:1rem;display:none;}
-    .cors-warn a{color:var(--amber);cursor:pointer;text-decoration:underline;}
-    .cors-wrap{max-width:640px;margin:0 auto;}
-    .cors-hero{text-align:center;padding:2rem 0 1.5rem;}
-    .cors-hero i{font-size:48px;color:var(--amber);}
-    .cors-hero h1{font-size:22px;font-weight:600;margin:.8rem 0 .4rem;color:var(--text);}
-    .cors-hero p{font-size:13px;color:var(--text2);line-height:1.7;max-width:480px;margin:0 auto;}
-    .cors-steps{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0;}
-    .cors-step{background:var(--bg2);border:0.5px solid var(--bdr);border-radius:var(--rl);padding:1rem 1.2rem;}
-    .cors-step-hdr{display:flex;align-items:center;gap:10px;margin-bottom:.6rem;}
-    .cors-step-num{width:24px;height:24px;border-radius:50%;background:var(--bg3);border:0.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text2);flex-shrink:0;}
-    .cors-step-title{font-size:13px;font-weight:600;}
-    .cors-step p{font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:.5rem;}
-    .code-block{background:var(--bg3);border:0.5px solid var(--bdr2);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--green);margin:.4rem 0;word-break:break-all;position:relative;padding-right:64px;}
-    .copy-btn{position:absolute;right:8px;top:6px;font-size:11px;padding:2px 8px;cursor:pointer;border-radius:4px;background:var(--bg4);border:0.5px solid var(--bdr2);color:var(--text2);font-family:var(--mono);}
-    .os-tabs{display:flex;gap:6px;margin-bottom:.8rem;flex-wrap:wrap;}
-    .os-tab{font-size:11px;padding:4px 10px;cursor:pointer;border-radius:4px;background:transparent;border:0.5px solid var(--bdr2);color:var(--text2);font-family:var(--mono);}
-    .os-tab.on{background:var(--bg3);color:var(--text);border-color:var(--green);}
-    .os-block{display:none;}
-    .os-block.on{display:block;}
-    .test-status{font-size:12px;display:flex;align-items:center;gap:6px;}
-    .tdot{width:8px;height:8px;border-radius:50%;background:var(--text3);}
-    .tdot.ok{background:var(--green);}.tdot.fail{background:var(--red);}
-    .tdot.spin{background:var(--amber);animation:pulse 1s ease-in-out infinite;}
-    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+    :root {
+      --bg:#141412; --bg2:#1e1e1c; --bg3:#2a2a27; --bg4:#333330;
+      --text:#e8e6df; --text2:#888780; --text3:#555451;
+      --bdr:rgba(255,255,255,0.07); --bdr2:rgba(255,255,255,0.15);
+      --green:#1D9E75; --gf:rgba(29,158,117,0.12); --gb:rgba(29,158,117,0.3);
+      --red:#E24B4A; --rf:rgba(226,75,74,0.10); --rb:rgba(226,75,74,0.35);
+      --amber:#D4930A; --af:rgba(212,147,10,0.10); --ab:rgba(212,147,10,0.3);
+      --blue:#378ADD; --r:8px; --rl:12px;
+      --mono:'Courier New',Courier,monospace;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:var(--mono); background:var(--bg); color:var(--text); min-height:100vh; }
+
+    /* nav */
+    .nav { display:flex; border-bottom:0.5px solid var(--bdr2); padding:0 1rem; background:var(--bg2); }
+    .nav-logo { display:flex; align-items:center; gap:7px; font-size:15px; font-weight:600; padding:12px 0; margin-right:16px; color:var(--text); letter-spacing:.5px; }
+    .nav-logo i { color:var(--green); }
+    .nav-tab { padding:12px 18px; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; color:var(--text2); font-family:var(--mono); background:none; border-top:none; border-left:none; border-right:none; }
+    .nav-tab.active { color:var(--green); border-bottom-color:var(--green); }
+
+    /* pages */
+    .page { display:none; padding:1.4rem 1rem; max-width:1040px; margin:0 auto; }
+    .page.active { display:block; }
+
+    /* shared */
+    .addr-pill { display:inline-block; font-size:11px; color:var(--text2); background:var(--bg2); border:0.5px solid var(--bdr); border-radius:4px; padding:3px 8px; word-break:break-all; }
+    .sec-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; flex-wrap:wrap; gap:6px; }
+    .sec-lbl { font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:.09em; }
+    .sec-sublbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.09em; margin-bottom:6px; }
+    .sm-btn { font-size:11px; padding:3px 9px; cursor:pointer; border-radius:4px; background:transparent; border:0.5px solid var(--bdr2); color:var(--text2); font-family:var(--mono); }
+    .sm-btn.on { background:var(--bg3); color:var(--text); border-color:var(--green); }
+    .icon-btn { display:flex; align-items:center; gap:5px; font-size:12px; padding:5px 11px; cursor:pointer; border-radius:var(--r); background:transparent; border:0.5px solid var(--bdr2); color:var(--text); font-family:var(--mono); }
+    .icon-btn:hover { background:var(--bg3); }
+    .icon-btn.spinning i { animation:spin .7s linear infinite; display:inline-block; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .ti-inp { font-family:var(--mono); font-size:12px; padding:6px 10px; background:var(--bg3); color:var(--text); border:0.5px solid var(--bdr2); border-radius:var(--r); outline:none; }
+    .ti-inp:focus { border-color:var(--green); }
+    select.ti-inp { cursor:pointer; color-scheme:dark; }
+    .go-btn { display:flex; align-items:center; gap:5px; font-size:12px; padding:6px 13px; cursor:pointer; border-radius:var(--r); background:var(--green); border:none; color:#fff; font-family:var(--mono); font-weight:600; }
+    .go-btn:hover { opacity:.85; }
+    .setup-bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:1.1rem; padding:10px 13px; background:var(--bg2); border-radius:var(--r); border:0.5px solid var(--bdr); }
+    .setup-bar label { font-size:12px; color:var(--text2); }
+    .nbar { display:flex; align-items:center; gap:8px; padding:7px 12px; border-radius:var(--r); margin-bottom:1rem; font-size:12px; background:var(--af); border:0.5px solid var(--ab); }
+    .nbar i { color:var(--amber); }
+    .nbar a { color:var(--amber); cursor:pointer; text-decoration:underline; }
+
+    /* fleet rows */
+    .fleet { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-bottom:9px; }
+    @media(max-width:600px) { .fleet { grid-template-columns:repeat(2,1fr); } }
+    .fc { background:var(--bg2); border-radius:var(--r); padding:11px 13px; border:0.5px solid var(--bdr); }
+    .fc-lbl { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:.09em; margin-bottom:4px; }
+    .fc-val { font-size:18px; font-weight:600; }
+    .fc-sub { font-size:11px; color:var(--text2); margin-top:2px; }
+    .cg { color:var(--green); } .cr { color:var(--red); } .ca { color:var(--amber); }
+
+    /* tables */
+    .tbl-wrap { border:0.5px solid var(--bdr); border-radius:var(--rl); overflow:hidden; margin-top:8px; }
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th { background:var(--bg2); color:var(--text2); font-weight:500; font-size:10px; text-transform:uppercase; letter-spacing:.07em; padding:8px 11px; text-align:left; border-bottom:0.5px solid var(--bdr); }
+    td { padding:8px 11px; border-bottom:0.5px solid var(--bdr); color:var(--text); font-family:var(--mono); }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:var(--bg3); }
+    .tbl-empty { color:var(--text2); padding:1.2rem; text-align:center; }
+    .badge { display:inline-block; font-size:10px; padding:2px 6px; border-radius:3px; font-weight:600; }
+    .bv { background:var(--gf); color:var(--green); }
+    .bc2 { background:rgba(55,138,221,0.12); color:var(--blue); }
+    .bo { background:var(--af); color:var(--amber); }
+
+    /* alerts */
+    .al { display:flex; align-items:center; gap:7px; font-size:12px; padding:6px 11px; border-radius:var(--r); margin-bottom:3px; animation:fi .25s; }
+    @keyframes fi { from { opacity:0; transform:translateY(-3px); } to { opacity:1; transform:none; } }
+    .al.offline { background:var(--rf); border:0.5px solid var(--rb); }
+    .al.online { background:var(--gf); border:0.5px solid var(--gb); }
+    .al.block { background:var(--af); border:0.5px solid var(--ab); }
+    .al-time { color:var(--text3); font-size:11px; margin-left:auto; flex-shrink:0; }
+
+    /* worker grid */
+    .worker-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:8px; margin-top:8px; margin-bottom:1.4rem; align-items:start; }
+
+    /* worker card */
+    .wcard { background:var(--bg2); border-radius:0 var(--rl) var(--rl) 0; border:0.5px solid var(--bdr); border-left:3px solid var(--green); cursor:pointer; user-select:none; }
+    .wcard.offline { border-left-color:var(--red); background:rgba(226,75,74,0.04); }
+    .wcard.warn { border-left-color:var(--amber); }
+    .wcard-inner { padding:12px 13px; }
+    .wcard-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .wcard-name { font-size:13px; font-weight:600; }
+    .wcard-st { display:flex; align-items:center; gap:5px; }
+    .wcard-st span { font-size:11px; }
+    .sdot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .sdot.online { background:var(--green); }
+    .sdot.offline { background:var(--red); }
+    .sdot.warn { background:var(--amber); }
+    .st-online { color:var(--green); } .st-offline { color:var(--red); } .st-warn { color:var(--amber); }
+
+    /* 4-cell grid inside card */
+    .wgrid { display:grid; grid-template-columns:1fr 1fr; gap:5px; width:100%; }
+    .wcell { background:var(--bg3); border-radius:var(--r); padding:7px 9px; min-width:0; overflow:hidden; }
+    .wcell-lbl { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:.07em; margin-bottom:3px; }
+    .wcell-val { font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .wcell-val.bad { color:var(--red); }
+    .wcell-val.dim { color:var(--text2); font-size:11px; }
+    .wcell-val.ca { color:var(--amber); }
+
+    .expand-hint { font-size:11px; color:var(--text3); text-align:center; padding:7px 0 2px; display:flex; align-items:center; justify-content:center; gap:4px; }
+    .wdetail { display:none; border-top:0.5px solid var(--bdr); padding:10px 13px 12px; }
+    .wdetail table { width:100%; font-size:12px; border-collapse:collapse; }
+    .wdetail td { padding:3px 0; color:var(--text2); }
+    .wdetail td:last-child { text-align:right; color:var(--text); }
+    .wdetail .hl { color:var(--amber); }
+
+    @keyframes pulse-r { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .offline-pulse { animation:pulse-r 2s ease-in-out infinite; }
+
+    /* block summary */
+    .block-summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:9px; margin-bottom:1.1rem; }
+    .bcs { background:var(--bg2); border-radius:var(--r); padding:11px 13px; border:0.5px solid var(--bdr); }
+    .bcs-coin { font-size:10px; text-transform:uppercase; letter-spacing:.09em; margin-bottom:4px; font-weight:600; }
+    .bcs-count { font-size:22px; font-weight:600; color:var(--amber); }
+    .bcs-last { font-size:11px; color:var(--text2); margin-top:3px; }
+
+    /* history page */
+    .hist-addr-bar { display:flex; gap:8px; margin-bottom:.6rem; flex-wrap:wrap; }
+    .date-row { display:flex; gap:8px; margin-bottom:1.2rem; flex-wrap:wrap; align-items:center; padding:9px 13px; background:var(--bg2); border-radius:var(--r); border:0.5px solid var(--bdr); }
+    .date-row label { font-size:11px; color:var(--text2); }
+    .preset-btns { display:flex; gap:5px; flex-wrap:wrap; }
+    .charts-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:1.4rem; }
+    @media(max-width:580px) { .charts-grid { grid-template-columns:1fr; } }
+    .chart-card { border:0.5px solid var(--bdr); border-radius:var(--rl); padding:13px; }
+    .chart-title { font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:.08em; margin-bottom:9px; }
+    .chart-wrap { position:relative; width:100%; height:175px; }
+    .prog-wrap { margin-bottom:1rem; display:none; }
+    .prog-bg { background:var(--bg2); border-radius:4px; height:5px; overflow:hidden; }
+    .prog-fill { background:var(--green); height:5px; width:0%; transition:width .2s; border-radius:4px; }
+    .prog-lbl { font-size:11px; color:var(--text2); margin-top:4px; }
+    .amount-pos { color:var(--green); }
+    .txid-link { color:var(--blue); text-decoration:none; font-size:11px; }
+    .txid-link:hover { text-decoration:underline; }
+    .badge-ok { display:inline-block; font-size:10px; padding:2px 6px; border-radius:3px; background:var(--gf); color:var(--green); }
+    .badge-pend { font-size:10px; color:var(--amber); }
+    .cors-warn { background:var(--af); border:0.5px solid var(--ab); border-radius:var(--r); padding:10px 14px; font-size:12px; line-height:1.65; margin-bottom:1rem; display:none; }
+    .cors-warn a { color:var(--amber); cursor:pointer; text-decoration:underline; }
+
+    /* setup page */
+    .cors-wrap { max-width:640px; margin:0 auto; }
+    .cors-hero { text-align:center; padding:2rem 0 1.5rem; }
+    .cors-hero i { font-size:48px; color:var(--amber); }
+    .cors-hero h1 { font-size:22px; font-weight:600; margin:.8rem 0 .4rem; color:var(--text); }
+    .cors-hero p { font-size:13px; color:var(--text2); line-height:1.7; max-width:480px; margin:0 auto; }
+    .cors-steps { display:flex; flex-direction:column; gap:1rem; margin:1.5rem 0; }
+    .cors-step { background:var(--bg2); border:0.5px solid var(--bdr); border-radius:var(--rl); padding:1rem 1.2rem; }
+    .cors-step-hdr { display:flex; align-items:center; gap:10px; margin-bottom:.6rem; }
+    .cors-step-num { width:24px; height:24px; border-radius:50%; background:var(--bg3); border:0.5px solid var(--bdr2); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--text2); flex-shrink:0; }
+    .cors-step-title { font-size:13px; font-weight:600; }
+    .cors-step p { font-size:12px; color:var(--text2); line-height:1.65; margin-bottom:.5rem; }
+    .code-block { background:var(--bg3); border:0.5px solid var(--bdr2); border-radius:var(--r); padding:8px 12px; padding-right:64px; font-size:12px; color:var(--green); margin:.4rem 0; word-break:break-all; position:relative; }
+    .copy-btn { position:absolute; right:8px; top:6px; font-size:11px; padding:2px 8px; cursor:pointer; border-radius:4px; background:var(--bg4); border:0.5px solid var(--bdr2); color:var(--text2); font-family:var(--mono); }
+    .os-tabs { display:flex; gap:6px; margin-bottom:.8rem; flex-wrap:wrap; }
+    .os-tab { font-size:11px; padding:4px 10px; cursor:pointer; border-radius:4px; background:transparent; border:0.5px solid var(--bdr2); color:var(--text2); font-family:var(--mono); }
+    .os-tab.on { background:var(--bg3); color:var(--text); border-color:var(--green); }
+    .os-block { display:none; }
+    .os-block.on { display:block; }
+    .test-status { font-size:12px; display:flex; align-items:center; gap:6px; }
+    .tdot { width:8px; height:8px; border-radius:50%; background:var(--text3); }
+    .tdot.ok { background:var(--green); }
+    .tdot.fail { background:var(--red); }
+    .tdot.spin { background:var(--amber); animation:pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.3; } }
   </style>
 </head>
 <body>
+
+<!-- NAV -->
 <div class="nav">
   <div class="nav-logo"><i class="ti ti-pickaxe" aria-hidden="true"></i> Verus Tracker</div>
   <button class="nav-tab active" onclick="showPage('setup')" id="tab-setup">Setup</button>
@@ -151,23 +195,41 @@
       <p>This tracker reads live data from the Verus blockchain explorer and verus.farm. One quick test checks if your browser is ready. Most issues are fixed in under a minute.</p>
     </div>
     <div class="cors-steps">
+
       <div class="cors-step">
-        <div class="cors-step-hdr"><div class="cors-step-num" id="s1n">1</div><div class="cors-step-title">Enter your VRSC R-address</div></div>
+        <div class="cors-step-hdr">
+          <div class="cors-step-num" id="s1n">1</div>
+          <div class="cors-step-title">Enter your VRSC R-address</div>
+        </div>
         <p>Your wallet address starting with R, 34 characters long.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <input class="ti-inp" id="setupAddr" type="text" style="flex:1;min-width:200px;" placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off" oninput="onSetupAddrInput()"/>
+          <input class="ti-inp" id="setupAddr" type="text" style="flex:1;min-width:200px;"
+            placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off"
+            oninput="onSetupAddrInput()"/>
         </div>
         <div style="font-size:12px;margin-top:6px;min-height:18px;" id="addrFeedback"></div>
       </div>
+
       <div class="cors-step">
-        <div class="cors-step-hdr"><div class="cors-step-num" id="s2n">2</div><div class="cors-step-title">Test your browser connection</div></div>
+        <div class="cors-step-hdr">
+          <div class="cors-step-num" id="s2n">2</div>
+          <div class="cors-step-title">Test your browser connection</div>
+        </div>
         <p>Tests if your browser can reach the Verus blockchain explorer. The Monitor tab works for everyone — this only affects Payout History.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-          <button class="go-btn" id="testConnBtn" onclick="runCorsTest()" disabled><i class="ti ti-plug" aria-hidden="true"></i> Test Connection</button>
-          <div class="test-status"><div class="tdot" id="testDot"></div><span id="testMsg" style="font-size:12px;color:var(--text2);">Enter address above first</span></div>
+          <button class="go-btn" id="testConnBtn" onclick="runCorsTest()" disabled>
+            <i class="ti ti-plug" aria-hidden="true"></i> Test Connection
+          </button>
+          <div class="test-status">
+            <div class="tdot" id="testDot"></div>
+            <span id="testMsg" style="font-size:12px;color:var(--text2);">Enter address above first</span>
+          </div>
         </div>
         <div id="corsGuide" style="display:none;margin-top:1rem;">
-          <div style="font-size:12px;color:var(--red);margin-bottom:.8rem;"><i class="ti ti-alert-circle" aria-hidden="true"></i> Blocked by CORS. Monitor tab still works. To use Payout History pick your browser:</div>
+          <div style="font-size:12px;color:var(--red);margin-bottom:.8rem;">
+            <i class="ti ti-alert-circle" aria-hidden="true"></i>
+            Blocked by CORS. Monitor tab still works. To use Payout History pick your browser:
+          </div>
           <div class="os-tabs">
             <button class="os-tab on" onclick="setOS('win',this)">Windows</button>
             <button class="os-tab" onclick="setOS('mac',this)">Mac</button>
@@ -191,42 +253,71 @@
             <p>Go to about:config, find security.fileuri.strict_origin_policy, set to false. Reload this page.</p>
           </div>
           <div style="margin-top:.8rem;display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="go-btn" style="background:var(--bg3);color:var(--text);border:0.5px solid var(--bdr2);" onclick="runCorsTest()"><i class="ti ti-refresh" aria-hidden="true"></i> Re-test</button>
-            <button class="go-btn" style="background:var(--bg3);color:var(--amber);border:0.5px solid var(--ab);" onclick="skipCors()">Skip - use Monitor only</button>
+            <button class="go-btn" style="background:var(--bg3);color:var(--text);border:0.5px solid var(--bdr2);" onclick="runCorsTest()">
+              <i class="ti ti-refresh" aria-hidden="true"></i> Re-test
+            </button>
+            <button class="go-btn" style="background:var(--bg3);color:var(--amber);border:0.5px solid var(--ab);" onclick="skipCors()">
+              Skip - use Monitor only
+            </button>
           </div>
         </div>
         <div id="corsOk" style="display:none;margin-top:.8rem;">
-          <div style="background:var(--gf);border:0.5px solid var(--gb);border-radius:var(--r);padding:9px 12px;font-size:12px;"><i class="ti ti-circle-check" style="color:var(--green)" aria-hidden="true"></i> Connection successful - Payout History will load live blockchain data.</div>
+          <div style="background:var(--gf);border:0.5px solid var(--gb);border-radius:var(--r);padding:9px 12px;font-size:12px;">
+            <i class="ti ti-circle-check" style="color:var(--green)" aria-hidden="true"></i>
+            Connection successful - Payout History will load live blockchain data.
+          </div>
         </div>
       </div>
+
       <div class="cors-step">
-        <div class="cors-step-hdr"><div class="cors-step-num" id="s3n">3</div><div class="cors-step-title">Launch</div></div>
+        <div class="cors-step-hdr">
+          <div class="cors-step-num" id="s3n">3</div>
+          <div class="cors-step-title">Launch</div>
+        </div>
         <p>Your address is saved automatically - you won't need to enter it again.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.2rem;">
-          <button class="go-btn" id="launchMonBtn" onclick="launchTo('monitor')" disabled><i class="ti ti-radar" aria-hidden="true"></i> Open Monitor</button>
-          <button class="go-btn" id="launchHistBtn" onclick="launchTo('history')" disabled style="background:var(--bg3);color:var(--text);border:0.5px solid var(--bdr2);"><i class="ti ti-chart-line" aria-hidden="true"></i> Open Payout History</button>
+          <button class="go-btn" id="launchMonBtn" onclick="launchTo('monitor')" disabled>
+            <i class="ti ti-radar" aria-hidden="true"></i> Open Monitor
+          </button>
+          <button class="go-btn" id="launchHistBtn" onclick="launchTo('history')" disabled
+            style="background:var(--bg3);color:var(--text);border:0.5px solid var(--bdr2);">
+            <i class="ti ti-chart-line" aria-hidden="true"></i> Open Payout History
+          </button>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <!-- MONITOR PAGE -->
 <div class="page" id="page-monitor">
+
   <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:8px;">
     <div>
-      <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;"><i class="ti ti-radar" style="color:var(--green)" aria-hidden="true"></i> Live Monitor</div>
+      <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;">
+        <i class="ti ti-radar" style="color:var(--green)" aria-hidden="true"></i> Live Monitor
+      </div>
       <div class="addr-pill" id="mon-addr" style="margin-top:5px;">-</div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <span style="font-size:11px;color:var(--text3);" id="mon-lastpoll"></span>
-      <button class="icon-btn" id="mon-refresh" onclick="monPoll(true)" style="display:none"><i class="ti ti-refresh" aria-hidden="true"></i> Refresh</button>
+      <button class="icon-btn" id="mon-refresh" onclick="monPoll(true)" style="display:none">
+        <i class="ti ti-refresh" aria-hidden="true"></i> Refresh
+      </button>
     </div>
   </div>
-  <div class="nbar" id="mon-nbar" style="display:none;"><i class="ti ti-bell" aria-hidden="true"></i> Enable browser notifications to get alerted when a miner goes offline or finds a block. <a onclick="reqNotif()">Enable</a></div>
+
+  <div class="nbar" id="mon-nbar" style="display:none;">
+    <i class="ti ti-bell" aria-hidden="true"></i>
+    Enable browser notifications to get alerted when a miner goes offline or finds a block.
+    <a onclick="reqNotif()">Enable</a>
+  </div>
+
   <div class="setup-bar">
     <label>Address:</label>
-    <input class="ti-inp" id="mon-addr-in" type="text" style="flex:1;min-width:180px;" placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off"/>
+    <input class="ti-inp" id="mon-addr-in" type="text" style="flex:1;min-width:180px;"
+      placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off"/>
     <label>Alert after:</label>
     <select class="ti-inp" id="mon-thr" style="width:110px;">
       <option value="5">5 minutes</option>
@@ -240,30 +331,67 @@
       <option value="120" selected>2 min</option>
       <option value="300">5 min</option>
     </select>
-    <button class="go-btn" onclick="startMonitor()"><i class="ti ti-radar" aria-hidden="true"></i> Start</button>
+    <button class="go-btn" onclick="startMonitor()">
+      <i class="ti ti-radar" aria-hidden="true"></i> Start
+    </button>
   </div>
 
   <div id="mon-fleet" style="display:none;margin-bottom:1.1rem;">
     <div class="sec-sublbl">Your fleet</div>
     <div class="fleet">
-      <div class="fc"><div class="fc-lbl">Online</div><div class="fc-val cg" id="f-on">-</div><div class="fc-sub">workers</div></div>
-      <div class="fc"><div class="fc-lbl">Offline</div><div class="fc-val cr" id="f-off">-</div><div class="fc-sub">workers</div></div>
-      <div class="fc"><div class="fc-lbl">Your hashrate</div><div class="fc-val" id="f-hash">-</div><div class="fc-sub">current</div></div>
-      <div class="fc"><div class="fc-lbl">Blocks found</div><div class="fc-val ca" id="f-blocks">-</div><div class="fc-sub">all coins</div></div>
+      <div class="fc">
+        <div class="fc-lbl">Online</div>
+        <div class="fc-val cg" id="f-on">-</div>
+        <div class="fc-sub">workers</div>
+      </div>
+      <div class="fc">
+        <div class="fc-lbl">Offline</div>
+        <div class="fc-val cr" id="f-off">-</div>
+        <div class="fc-sub">workers</div>
+      </div>
+      <div class="fc">
+        <div class="fc-lbl">Your hashrate</div>
+        <div class="fc-val" id="f-hash">-</div>
+        <div class="fc-sub">current</div>
+      </div>
+      <div class="fc">
+        <div class="fc-lbl">Blocks found</div>
+        <div class="fc-val ca" id="f-blocks">-</div>
+        <div class="fc-sub">all coins</div>
+      </div>
     </div>
     <div class="sec-sublbl" style="margin-top:4px;">Network</div>
     <div class="fleet">
-      <div class="fc" style="border-left:3px solid var(--green);border-radius:0 var(--rl) var(--rl) 0;"><div class="fc-lbl" style="color:var(--green);">VRSC</div><div class="fc-val" id="n-vrsc-hash">-</div><div class="fc-sub" id="n-vrsc-diff">diff -</div></div>
-      <div class="fc" style="border-left:3px solid var(--blue);border-radius:0 var(--rl) var(--rl) 0;"><div class="fc-lbl" style="color:var(--blue);">CHIPS</div><div class="fc-val" id="n-chips-hash">-</div><div class="fc-sub" id="n-chips-diff">diff -</div></div>
-      <div class="fc" style="border-left:3px solid var(--amber);border-radius:0 var(--rl) var(--rl) 0;"><div class="fc-lbl" style="color:var(--amber);">vARRR</div><div class="fc-val" id="n-varrr-hash">-</div><div class="fc-sub" id="n-varrr-diff">diff -</div></div>
-      <div class="fc" style="border-left:3px solid var(--text2);border-radius:0 var(--rl) var(--rl) 0;"><div class="fc-lbl">vDEX</div><div class="fc-val" id="n-vdex-hash">-</div><div class="fc-sub" id="n-vdex-diff">diff -</div></div>
+      <div class="fc" style="border-left:3px solid var(--green);border-radius:0 var(--rl) var(--rl) 0;">
+        <div class="fc-lbl" style="color:var(--green);">VRSC</div>
+        <div class="fc-val" id="n-vrsc-hash">-</div>
+        <div class="fc-sub" id="n-vrsc-diff">diff -</div>
+      </div>
+      <div class="fc" style="border-left:3px solid var(--blue);border-radius:0 var(--rl) var(--rl) 0;">
+        <div class="fc-lbl" style="color:var(--blue);">CHIPS</div>
+        <div class="fc-val" id="n-chips-hash">-</div>
+        <div class="fc-sub" id="n-chips-diff">diff -</div>
+      </div>
+      <div class="fc" style="border-left:3px solid var(--amber);border-radius:0 var(--rl) var(--rl) 0;">
+        <div class="fc-lbl" style="color:var(--amber);">vARRR</div>
+        <div class="fc-val" id="n-varrr-hash">-</div>
+        <div class="fc-sub" id="n-varrr-diff">diff -</div>
+      </div>
+      <div class="fc" style="border-left:3px solid var(--text2);border-radius:0 var(--rl) var(--rl) 0;">
+        <div class="fc-lbl">vDEX</div>
+        <div class="fc-val" id="n-vdex-hash">-</div>
+        <div class="fc-sub" id="n-vdex-diff">diff -</div>
+      </div>
     </div>
   </div>
 
   <div id="block-summary" style="display:none;margin-bottom:1.1rem;"></div>
 
   <div id="alert-sec" style="display:none;margin-bottom:1.1rem;">
-    <div class="sec-hdr"><span class="sec-lbl">Recent alerts</span><button class="sm-btn" onclick="clearAlerts()">Clear</button></div>
+    <div class="sec-hdr">
+      <span class="sec-lbl">Recent alerts</span>
+      <button class="sm-btn" onclick="clearAlerts()">Clear</button>
+    </div>
     <div id="alert-log"></div>
   </div>
 
@@ -280,36 +408,58 @@
   </div>
 
   <div id="block-sec" style="display:none;">
-    <div class="sec-hdr"><span class="sec-lbl">Blocks found by your miners</span></div>
+    <div class="sec-hdr">
+      <span class="sec-lbl">Blocks found by your miners</span>
+    </div>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>Time</th><th>Worker</th><th>Coin</th><th>Block #</th></tr></thead>
-        <tbody id="block-table"><tr><td colspan="4" class="tbl-empty">Start the monitor to scan for blocks.</td></tr></tbody>
+        <thead>
+          <tr><th>Time</th><th>Worker</th><th>Coin</th><th>Block #</th></tr>
+        </thead>
+        <tbody id="block-table">
+          <tr><td colspan="4" class="tbl-empty">Start the monitor to scan for blocks.</td></tr>
+        </tbody>
       </table>
     </div>
   </div>
+
 </div>
 
 <!-- HISTORY PAGE -->
 <div class="page" id="page-history">
+
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
-    <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;"><i class="ti ti-chart-line" style="color:var(--green)" aria-hidden="true"></i> Payout History</div>
+    <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;">
+      <i class="ti ti-chart-line" style="color:var(--green)" aria-hidden="true"></i> Payout History
+    </div>
     <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:11px;color:var(--text3);" id="hist-lastupd"></span>
-      <button class="icon-btn" id="hist-refresh" onclick="histLoad()" style="display:none"><i class="ti ti-refresh" aria-hidden="true"></i> Refresh</button>
+      <button class="icon-btn" id="hist-refresh" onclick="histLoad()" style="display:none">
+        <i class="ti ti-refresh" aria-hidden="true"></i> Refresh
+      </button>
     </div>
   </div>
+
   <div class="cors-warn" id="hist-cors-warn">
     <i class="ti ti-alert-circle" style="color:var(--amber)" aria-hidden="true"></i>
-    <strong>Connection blocked.</strong> Payout History reads from the Verus blockchain explorer and requires a one-time browser fix. <a onclick="showPage('setup')">Go to Setup</a> for instructions. The Monitor tab works without any fix.
+    <strong>Connection blocked.</strong> Payout History reads from the Verus blockchain explorer and requires a one-time browser fix.
+    <a onclick="showPage('setup')">Go to Setup</a> for instructions. The Monitor tab works without any fix.
   </div>
+
   <div class="hist-addr-bar">
-    <input class="ti-inp" id="hist-addr" type="text" style="flex:1;min-width:200px;" placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off" onkeydown="if(event.key==='Enter') histLoad()"/>
-    <button class="go-btn" onclick="histLoad()"><i class="ti ti-chart-bar" aria-hidden="true"></i> Load</button>
+    <input class="ti-inp" id="hist-addr" type="text" style="flex:1;min-width:200px;"
+      placeholder="Your VRSC R-address" spellcheck="false" autocomplete="off"
+      onkeydown="if(event.key==='Enter') histLoad()"/>
+    <button class="go-btn" onclick="histLoad()">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i> Load
+    </button>
   </div>
+
   <div class="date-row">
-    <label>From:</label><input class="ti-inp" type="date" id="hist-from"/>
-    <label>To:</label><input class="ti-inp" type="date" id="hist-to"/>
+    <label>From:</label>
+    <input class="ti-inp" type="date" id="hist-from"/>
+    <label>To:</label>
+    <input class="ti-inp" type="date" id="hist-to"/>
     <div class="preset-btns">
       <button class="sm-btn" onclick="setPreset(30,this)">30d</button>
       <button class="sm-btn on" onclick="setPreset(90,this)">90d</button>
@@ -318,7 +468,12 @@
       <button class="sm-btn" onclick="setPreset(0,this)">All</button>
     </div>
   </div>
-  <div class="prog-wrap" id="hist-prog"><div class="prog-bg"><div class="prog-fill" id="hist-prog-fill"></div></div><div class="prog-lbl" id="hist-prog-lbl">Fetching...</div></div>
+
+  <div class="prog-wrap" id="hist-prog">
+    <div class="prog-bg"><div class="prog-fill" id="hist-prog-fill"></div></div>
+    <div class="prog-lbl" id="hist-prog-lbl">Fetching...</div>
+  </div>
+
   <div id="hist-results" style="display:none;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap;">
       <span style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;">Showing results for</span>
@@ -331,8 +486,14 @@
       <div class="fc"><div class="fc-lbl">Daily avg</div><div class="fc-val" id="hm-avg">-</div><div class="fc-sub">last 30 days</div></div>
     </div>
     <div class="charts-grid">
-      <div class="chart-card"><div class="chart-title">Daily rewards - last 30 days</div><div class="chart-wrap"><canvas id="hchart30"></canvas></div></div>
-      <div class="chart-card"><div class="chart-title">Daily rewards - last 6 months</div><div class="chart-wrap"><canvas id="hchart180"></canvas></div></div>
+      <div class="chart-card">
+        <div class="chart-title">Daily rewards - last 30 days</div>
+        <div class="chart-wrap"><canvas id="hchart30"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Daily rewards - last 6 months</div>
+        <div class="chart-wrap"><canvas id="hchart180"></canvas></div>
+      </div>
     </div>
     <div class="sec-hdr" style="margin-bottom:8px;">
       <span class="sec-lbl">Transaction history</span>
@@ -346,339 +507,649 @@
     </div>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>Date</th><th>Amount (VRSC)</th><th>Txid</th><th>Status</th></tr></thead>
-        <tbody id="tx-table"><tr><td colspan="4" class="tbl-empty">Loading...</td></tr></tbody>
+        <thead>
+          <tr><th>Date</th><th>Amount (VRSC)</th><th>Txid</th><th>Status</th></tr>
+        </thead>
+        <tbody id="tx-table">
+          <tr><td colspan="4" class="tbl-empty">Loading...</td></tr>
+        </tbody>
       </table>
     </div>
     <div style="font-size:11px;color:var(--text2);margin-top:7px;text-align:right;" id="tx-page-info"></div>
   </div>
+
 </div>
 
 <script>
-const STATS_URL='https://verus.farm/api/stats';
-const BLOCKS_URL='https://verus.farm/api/blocks';
-const EXPLORER='https://insight.verus.io';
-const LS_KEY='vrsc_tracker_v4';
+/* ── constants ── */
+const STATS_URL  = 'https://verus.farm/api/stats';
+const BLOCKS_URL = 'https://verus.farm/api/blocks';
+const EXPLORER   = 'https://insight.verus.io';
+const LS_KEY     = 'vrsc_tracker_v4';
 
-let CFG={addr:'',monThr:10,monPoll:120,corsOk:false,corsSkip:false};
-function saveCfg(){try{localStorage.setItem(LS_KEY,JSON.stringify(CFG));}catch(e){}}
-function loadCfg(){try{const c=JSON.parse(localStorage.getItem(LS_KEY)||'{}');CFG={...CFG,...c};}catch(e){}}
+/* ── config ── */
+let CFG = { addr:'', monThr:10, monPoll:120, corsOk:false, corsSkip:false };
+function saveCfg() { try { localStorage.setItem(LS_KEY, JSON.stringify(CFG)); } catch(e) {} }
+function loadCfg() { try { const c = JSON.parse(localStorage.getItem(LS_KEY)||'{}'); CFG = {...CFG, ...c}; } catch(e) {} }
 
-function fmtDiff(d){
-  const v=Math.abs(d||0);
-  if(v>=1e12) return (v/1e12).toFixed(2)+' T';
-  if(v>=1e9)  return (v/1e9).toFixed(2)+' G';
-  if(v>=1e6)  return (v/1e6).toFixed(2)+' M';
+/* ── format helpers ── */
+function fmtDiff(d) {
+  const v = Math.abs(d||0);
+  if (v >= 1e12) return (v/1e12).toFixed(2) + ' T';
+  if (v >= 1e9)  return (v/1e9).toFixed(2)  + ' G';
+  if (v >= 1e6)  return (v/1e6).toFixed(2)  + ' M';
   return v.toFixed(0);
 }
-function fmtH(h){
-  const v=Math.abs(h||0);
-  if(v>=1e15) return (v/1e15).toFixed(2)+' PH/s';
-  if(v>=1e12) return (v/1e12).toFixed(2)+' TH/s';
-  if(v>=1e9)  return (v/1e9).toFixed(2)+' GH/s';
-  if(v>=1e6)  return (v/1e6).toFixed(2)+' MH/s';
-  if(v>=1e3)  return (v/1e3).toFixed(2)+' KH/s';
-  return v+' H/s';
+function fmtH(h) {
+  const v = Math.abs(h||0);
+  if (v >= 1e15) return (v/1e15).toFixed(2) + ' PH/s';
+  if (v >= 1e12) return (v/1e12).toFixed(2) + ' TH/s';
+  if (v >= 1e9)  return (v/1e9).toFixed(2)  + ' GH/s';
+  if (v >= 1e6)  return (v/1e6).toFixed(2)  + ' MH/s';
+  if (v >= 1e3)  return (v/1e3).toFixed(2)  + ' KH/s';
+  return v + ' H/s';
 }
-function fmtTs(ms){return new Date(ms).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
-function timeAgo(ms){const s=Math.floor((Date.now()-ms)/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m '+s%60+'s ago';return Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m ago';}
-function fmtRound(secs){if(!secs||secs<=0)return '-';const h=Math.floor(secs/3600),m=Math.floor((secs%3600)/60),s=Math.floor(secs%60);if(h>0)return h+'h '+m+'m';if(m>0)return m+'m '+s+'s';return s+'s';}
-function dayKey(ts){const d=new Date(ts*1000);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function startOfDayAgo(n){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-n);return d.getTime()/1000;}
-function fmtNum(n){return(n==null||isNaN(n))?'-':n.toFixed(4);}
-function validateAddr(a){return typeof a==='string'&&a.startsWith('R')&&a.length===34;}
+function fmtTs(ms) { return new Date(ms).toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
+function timeAgo(ms) {
+  const s = Math.floor((Date.now()-ms)/1000);
+  if (s < 60)   return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ' + (s%60) + 's ago';
+  return Math.floor(s/3600) + 'h ' + Math.floor((s%3600)/60) + 'm ago';
+}
+function fmtRound(secs) {
+  if (!secs || secs <= 0) return '-';
+  const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = Math.floor(secs%60);
+  if (h > 0) return h + 'h ' + m + 'm';
+  if (m > 0) return m + 'm ' + s + 's';
+  return s + 's';
+}
+function dayKey(ts) {
+  const d = new Date(ts*1000);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function startOfDayAgo(n) { const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-n); return d.getTime()/1000; }
+function fmtNum(n) { return (n == null || isNaN(n)) ? '-' : n.toFixed(4); }
+function validateAddr(a) { return typeof a === 'string' && a.startsWith('R') && a.length === 34; }
 
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.getElementById('tab-'+id).classList.add('active');
+/* ── nav ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
 }
 
-function onSetupAddrInput(){
-  const v=document.getElementById('setupAddr').value.trim();
-  const fb=document.getElementById('addrFeedback');
-  if(!v){fb.innerHTML='';document.getElementById('testConnBtn').disabled=true;return;}
-  if(!v.startsWith('R')){fb.innerHTML='<span style="color:var(--red)">Must start with R</span>';document.getElementById('testConnBtn').disabled=true;return;}
-  if(v.length!==34){fb.innerHTML='<span style="color:var(--amber)">'+v.length+'/34 characters</span>';document.getElementById('testConnBtn').disabled=true;return;}
-  fb.innerHTML='<span style="color:var(--green)">Valid address</span>';
-  document.getElementById('testConnBtn').disabled=false;
-  document.getElementById('launchMonBtn').disabled=false;
-  if(CFG.corsOk||CFG.corsSkip)document.getElementById('launchHistBtn').disabled=false;
+/* ── setup page ── */
+function onSetupAddrInput() {
+  const v = document.getElementById('setupAddr').value.trim();
+  const fb = document.getElementById('addrFeedback');
+  if (!v) { fb.innerHTML = ''; document.getElementById('testConnBtn').disabled = true; return; }
+  if (!v.startsWith('R')) { fb.innerHTML = '<span style="color:var(--red)">Must start with R</span>'; document.getElementById('testConnBtn').disabled = true; return; }
+  if (v.length !== 34) { fb.innerHTML = '<span style="color:var(--amber)">' + v.length + '/34 characters</span>'; document.getElementById('testConnBtn').disabled = true; return; }
+  fb.innerHTML = '<span style="color:var(--green)">Valid address</span>';
+  document.getElementById('testConnBtn').disabled = false;
+  document.getElementById('launchMonBtn').disabled = false;
+  if (CFG.corsOk || CFG.corsSkip) document.getElementById('launchHistBtn').disabled = false;
 }
-function setOS(os,btn){document.querySelectorAll('.os-tab').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.os-block').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('os-'+os).classList.add('on');}
-function copyCode(id){const el=document.getElementById(id);const txt=el.childNodes[0].textContent.trim();navigator.clipboard.writeText(txt).then(()=>{const btn=el.querySelector('.copy-btn');if(btn){btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1500);}});}
-async function runCorsTest(){
-  const addr=document.getElementById('setupAddr').value.trim();
-  if(!validateAddr(addr))return;
-  const dot=document.getElementById('testDot'),msg=document.getElementById('testMsg');
-  const guide=document.getElementById('corsGuide'),ok=document.getElementById('corsOk');
-  dot.className='tdot spin';msg.textContent='Testing...';guide.style.display='none';ok.style.display='none';
-  try{
-    const r=await fetch(EXPLORER+'/api/txs?address='+addr+'&pageNum=0',{signal:AbortSignal.timeout(8000)});
-    if(!r.ok)throw new Error('HTTP '+r.status);
+
+function setOS(os, btn) {
+  document.querySelectorAll('.os-tab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.os-block').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('os-' + os).classList.add('on');
+}
+
+function copyCode(id) {
+  const el = document.getElementById(id);
+  const txt = el.childNodes[0].textContent.trim();
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = el.querySelector('.copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); }
+  });
+}
+
+async function runCorsTest() {
+  const addr = document.getElementById('setupAddr').value.trim();
+  if (!validateAddr(addr)) return;
+  const dot = document.getElementById('testDot');
+  const msg = document.getElementById('testMsg');
+  const guide = document.getElementById('corsGuide');
+  const ok = document.getElementById('corsOk');
+  dot.className = 'tdot spin'; msg.textContent = 'Testing...'; guide.style.display = 'none'; ok.style.display = 'none';
+  try {
+    const r = await fetch(EXPLORER + '/api/txs?address=' + addr + '&pageNum=0', {signal: AbortSignal.timeout(8000)});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     await r.json();
-    dot.className='tdot ok';msg.textContent='Connected';ok.style.display='block';
-    CFG.corsOk=true;CFG.corsSkip=false;document.getElementById('launchHistBtn').disabled=false;
-  }catch(e){dot.className='tdot fail';msg.textContent='Blocked - CORS';guide.style.display='block';CFG.corsOk=false;}
+    dot.className = 'tdot ok'; msg.textContent = 'Connected';
+    ok.style.display = 'block'; CFG.corsOk = true; CFG.corsSkip = false;
+    document.getElementById('launchHistBtn').disabled = false;
+  } catch(e) {
+    dot.className = 'tdot fail'; msg.textContent = 'Blocked - CORS';
+    guide.style.display = 'block'; CFG.corsOk = false;
+  }
 }
-function skipCors(){CFG.corsSkip=true;document.getElementById('corsGuide').style.display='none';document.getElementById('launchHistBtn').disabled=false;document.getElementById('testMsg').textContent='Skipped - monitor only';}
-function launchTo(dest){
-  const addr=document.getElementById('setupAddr').value.trim();
-  if(!validateAddr(addr))return;
-  CFG.addr=addr;saveCfg();prefillFromCfg();
+
+function skipCors() {
+  CFG.corsSkip = true;
+  document.getElementById('corsGuide').style.display = 'none';
+  document.getElementById('launchHistBtn').disabled = false;
+  document.getElementById('testMsg').textContent = 'Skipped - monitor only';
+}
+
+function launchTo(dest) {
+  const addr = document.getElementById('setupAddr').value.trim();
+  if (!validateAddr(addr)) return;
+  CFG.addr = addr; saveCfg(); prefillFromCfg();
   showPage(dest);
-  if(dest==='monitor')startMonitor();
-  if(dest==='history')histInit();
+  if (dest === 'monitor') startMonitor();
+  if (dest === 'history') histInit();
 }
 
-function checkNotif(){if('Notification' in window&&Notification.permission==='default')document.getElementById('mon-nbar').style.display='flex';}
-function reqNotif(){Notification.requestPermission().then(p=>{if(p==='granted')document.getElementById('mon-nbar').style.display='none';});}
-function notify(title,body){if(Notification.permission==='granted')new Notification(title,{body});}
+/* ── notifications ── */
+function checkNotif() { if ('Notification' in window && Notification.permission === 'default') document.getElementById('mon-nbar').style.display = 'flex'; }
+function reqNotif() { Notification.requestPermission().then(p => { if (p === 'granted') document.getElementById('mon-nbar').style.display = 'none'; }); }
+function notify(title, body) { if (Notification.permission === 'granted') new Notification(title, {body}); }
 
-let monTimer=null,wFilter='all',monFirst=true;
-let monAlerts=[],knownWorkers={},knownBlocks=new Set(),myBlocks=[];
-let hrHistory={};
+/* ── monitor state ── */
+let monTimer = null, wFilter = 'all', monFirst = true;
+let monAlerts = [], knownWorkers = {}, knownBlocks = new Set(), myBlocks = [];
+let hrHistory = {};
 
-function startMonitor(){
-  const addr=document.getElementById('mon-addr-in').value.trim();
-  if(!validateAddr(addr)){alert('Please enter a valid VRSC R-address');return;}
-  CFG.addr=addr;CFG.monThr=parseInt(document.getElementById('mon-thr').value);CFG.monPoll=parseInt(document.getElementById('mon-poll').value);
-  saveCfg();monFirst=true;knownWorkers={};knownBlocks=new Set();myBlocks=[];
-  document.getElementById('mon-addr').textContent=addr;
-  document.getElementById('mon-refresh').style.display='flex';
-  document.getElementById('mon-fleet').style.display='block';
-  document.getElementById('worker-sec').style.display='block';
-  document.getElementById('block-sec').style.display='block';
+function startMonitor() {
+  const addr = document.getElementById('mon-addr-in').value.trim();
+  if (!validateAddr(addr)) { alert('Please enter a valid VRSC R-address'); return; }
+  CFG.addr = addr;
+  CFG.monThr = parseInt(document.getElementById('mon-thr').value);
+  CFG.monPoll = parseInt(document.getElementById('mon-poll').value);
+  saveCfg(); monFirst = true; knownWorkers = {}; knownBlocks = new Set(); myBlocks = [];
+  document.getElementById('mon-addr').textContent = addr;
+  document.getElementById('mon-refresh').style.display = 'flex';
+  document.getElementById('mon-fleet').style.display = 'block';
+  document.getElementById('worker-sec').style.display = 'block';
+  document.getElementById('block-sec').style.display = 'block';
   checkNotif();
-  if(monTimer)clearInterval(monTimer);
+  if (monTimer) clearInterval(monTimer);
   monPoll(true);
-  monTimer=setInterval(()=>monPoll(false),CFG.monPoll*1000);
+  monTimer = setInterval(() => monPoll(false), CFG.monPoll * 1000);
 }
 
-async function monPoll(manual){
-  const btn=document.getElementById('mon-refresh');
-  if(manual)btn.classList.add('spinning');
-  try{
-    const [sr,br]=await Promise.all([fetch(STATS_URL),fetch(BLOCKS_URL)]);
+async function monPoll(manual) {
+  const btn = document.getElementById('mon-refresh');
+  if (manual) btn.classList.add('spinning');
+  try {
+    const [sr, br] = await Promise.all([fetch(STATS_URL), fetch(BLOCKS_URL)]);
     processWorkers(await sr.json());
     processBlocks(await br.json());
-    document.getElementById('mon-lastpoll').textContent='Updated: '+new Date().toLocaleTimeString();
-    monFirst=false;
-  }catch(e){document.getElementById('mon-lastpoll').textContent='Poll error: '+e.message;}
-  if(manual)btn.classList.remove('spinning');
+    document.getElementById('mon-lastpoll').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+    monFirst = false;
+  } catch(e) {
+    document.getElementById('mon-lastpoll').textContent = 'Poll error: ' + e.message;
+  }
+  if (manual) btn.classList.remove('spinning');
 }
 
-function recordHr(name,h){const now=Date.now();if(!hrHistory[name])hrHistory[name]=[];hrHistory[name].push({ts:now,h});hrHistory[name]=hrHistory[name].filter(e=>now-e.ts<25*3600000);}
-function avgHr(name,windowMs){const hist=hrHistory[name];if(!hist||hist.length<2)return null;const inW=hist.filter(e=>e.ts>=Date.now()-windowMs);if(inW.length<2)return null;return inW.reduce((a,e)=>a+e.h,0)/inW.length;}
-
-function addAlert(type,msg){monAlerts.unshift({type,msg,time:new Date().toLocaleTimeString()});if(monAlerts.length>30)monAlerts.pop();renderAlerts();document.getElementById('alert-sec').style.display='block';}
-function renderAlerts(){
-  const ico={offline:'<i class="ti ti-wifi-off" style="color:var(--red)" aria-hidden="true"></i>',online:'<i class="ti ti-wifi" style="color:var(--green)" aria-hidden="true"></i>',block:'<i class="ti ti-cube" style="color:var(--amber)" aria-hidden="true"></i>'};
-  document.getElementById('alert-log').innerHTML=monAlerts.map(a=>'<div class="al '+a.type+'">'+ico[a.type]+' '+a.msg+'<span class="al-time">'+a.time+'</span></div>').join('');
+function recordHr(name, h) {
+  const now = Date.now();
+  if (!hrHistory[name]) hrHistory[name] = [];
+  hrHistory[name].push({ts: now, h});
+  hrHistory[name] = hrHistory[name].filter(e => now - e.ts < 25 * 3600000);
 }
-function clearAlerts(){monAlerts=[];document.getElementById('alert-log').innerHTML='';document.getElementById('alert-sec').style.display='none';}
 
-function processWorkers(stats){
-  const ADDR=CFG.addr;const thrMs=CFG.monThr*60000;
-  const workers=stats.pools?.verus?.workers||{};
-  const now=Date.now();
-  const mine=Object.values(workers).filter(w=>w.name.split('.')[0]===ADDR);
-  let online=0,offline=0,myHash=0;
-  const processed=mine.map(w=>{
-    const sinceMs=now-w.lastShare;
-    const status=w.lastShare===0||sinceMs>thrMs?'offline':sinceMs>thrMs*0.75?'warn':'online';
-    const short=w.name.split('.').slice(1).join('.')||w.name;
-    recordHr(w.name,w.hashrate||0);
-    if(!monFirst){
-      const prev=knownWorkers[w.name];
-      if(prev!==undefined){
-        if(prev!=='offline'&&status==='offline'){addAlert('offline','! '+short+' went offline');notify('Miner offline',short+' not submitting shares for '+Math.round(sinceMs/60000)+' min.');}
-        else if(prev==='offline'&&status!=='offline'){addAlert('online','+ '+short+' back online');notify('Miner back online',short+' is submitting shares again.');}
+function avgHr(name, windowMs) {
+  const hist = hrHistory[name];
+  if (!hist || hist.length < 2) return null;
+  const inW = hist.filter(e => e.ts >= Date.now() - windowMs);
+  if (inW.length < 2) return null;
+  return inW.reduce((a, e) => a + e.h, 0) / inW.length;
+}
+
+function addAlert(type, msg) {
+  monAlerts.unshift({type, msg, time: new Date().toLocaleTimeString()});
+  if (monAlerts.length > 30) monAlerts.pop();
+  renderAlerts();
+  document.getElementById('alert-sec').style.display = 'block';
+}
+
+function renderAlerts() {
+  const ico = {
+    offline: '<i class="ti ti-wifi-off" style="color:var(--red)" aria-hidden="true"></i>',
+    online:  '<i class="ti ti-wifi" style="color:var(--green)" aria-hidden="true"></i>',
+    block:   '<i class="ti ti-cube" style="color:var(--amber)" aria-hidden="true"></i>'
+  };
+  document.getElementById('alert-log').innerHTML = monAlerts.map(a =>
+    '<div class="al ' + a.type + '">' + (ico[a.type]||'') + ' ' + a.msg + '<span class="al-time">' + a.time + '</span></div>'
+  ).join('');
+}
+
+function clearAlerts() { monAlerts = []; document.getElementById('alert-log').innerHTML = ''; document.getElementById('alert-sec').style.display = 'none'; }
+
+function processWorkers(stats) {
+  const ADDR    = CFG.addr;
+  const thrMs   = CFG.monThr * 60000;
+  const workers = stats.pools?.verus?.workers || {};
+  const now     = Date.now();
+  const mine    = Object.values(workers).filter(w => w.name.split('.')[0] === ADDR);
+  let online = 0, offline = 0, myHash = 0;
+
+  const processed = mine.map(w => {
+    const sinceMs = now - w.lastShare;
+    const status  = (w.lastShare === 0 || sinceMs > thrMs) ? 'offline' : (sinceMs > thrMs * 0.75) ? 'warn' : 'online';
+    const short   = w.name.split('.').slice(1).join('.') || w.name;
+    recordHr(w.name, w.hashrate || 0);
+
+    if (!monFirst) {
+      const prev = knownWorkers[w.name];
+      if (prev !== undefined) {
+        if (prev !== 'offline' && status === 'offline') {
+          addAlert('offline', '! ' + short + ' went offline');
+          notify('Miner offline', short + ' not submitting shares for ' + Math.round(sinceMs/60000) + ' min.');
+        } else if (prev === 'offline' && status !== 'offline') {
+          addAlert('online', '+ ' + short + ' back online');
+          notify('Miner back online', short + ' is submitting shares again.');
+        }
       }
     }
-    knownWorkers[w.name]=status;
-    if(status!=='offline'){online++;myHash+=w.hashrate||0;}else offline++;
-    return {...w,status,sinceMs,short};
+    knownWorkers[w.name] = status;
+    if (status !== 'offline') { online++; myHash += w.hashrate || 0; } else offline++;
+    return {...w, status, sinceMs, short};
   });
 
-  document.getElementById('f-on').textContent=online;
-  document.getElementById('f-off').textContent=offline;
-  document.getElementById('f-hash').textContent=fmtH(myHash/500000);
-  document.getElementById('w-count').textContent=processed.length;
+  /* fleet row 1 - divide raw hashrate by 500000 to get correct MH/s */
+  document.getElementById('f-on').textContent    = online;
+  document.getElementById('f-off').textContent   = offline;
+  document.getElementById('f-hash').textContent  = fmtH(myHash / 500000);
+  document.getElementById('w-count').textContent = processed.length;
 
-  const coinMap={vrsc:'verus',chips:'chips',varrr:'varrr',vdex:'vdex'};
-  for(const [id,key] of Object.entries(coinMap)){
-    const ps=stats.pools?.[key]?.poolStats||{};
-    const hash=parseFloat(ps.networkSols||0);
-    const diff=parseFloat(ps.networkDiff||0);
-    const hEl=document.getElementById('n-'+id+'-hash');
-    const dEl=document.getElementById('n-'+id+'-diff');
-    if(hEl)hEl.textContent=hash>0?fmtH(hash):'-';
-    if(dEl)dEl.textContent=diff>0?'diff '+fmtDiff(diff):'diff -';
+  /* network row 2 */
+  const coinMap = {vrsc:'verus', chips:'chips', varrr:'varrr', vdex:'vdex'};
+  for (const [id, key] of Object.entries(coinMap)) {
+    const ps   = stats.pools?.[key]?.poolStats || {};
+    const hash = parseFloat(ps.networkSols || 0);
+    const diff = parseFloat(ps.networkDiff  || 0);
+    const hEl  = document.getElementById('n-' + id + '-hash');
+    const dEl  = document.getElementById('n-' + id + '-diff');
+    if (hEl) hEl.textContent = hash > 0 ? fmtH(hash) : '-';
+    if (dEl) dEl.textContent = diff > 0 ? 'diff ' + fmtDiff(diff) : 'diff -';
   }
 
-  processed.sort((a,b)=>{const r={offline:0,warn:1,online:2};return r[a.status]-r[b.status]||a.short.localeCompare(b.short);});
+  processed.sort((a, b) => {
+    const r = {offline:0, warn:1, online:2};
+    return r[a.status] - r[b.status] || a.short.localeCompare(b.short, undefined, {numeric:true, sensitivity:'base'});
+  });
   renderWorkers(processed);
 }
 
-function renderWorkers(workers){
-  const show=wFilter==='all'?workers:wFilter==='online'?workers.filter(w=>w.status!=='offline'):workers.filter(w=>w.status==='offline');
-  if(show.length===0){document.getElementById('worker-grid').innerHTML='<div style="color:var(--text2);font-size:13px;grid-column:1/-1;padding:.5rem 0">No workers found for this address on verus.farm.</div>';return;}
-  const COINS=['VRSC','CHIPS','VARRR','VDEX'];
-  document.getElementById('worker-grid').innerHTML=show.map(w=>{
-    const off=w.status==='offline';
-    const inv=w.shares>0?((w.invalidshares/w.shares)*100).toFixed(1):'0.0';
-    const h1=avgHr(w.name,3600000);const h24=avgHr(w.name,86400000);
-    const wBlocks=myBlocks.filter(b=>b.worker===w.short);
-    const id='wc-'+w.short.replace(/[^a-z0-9]/gi,'_');
-    const coinRows=COINS.map(coin=>{
-      const cb=wBlocks.filter(b=>b.coin===coin);const last=cb[0];
-      const bc=coin==='VRSC'?'bv':coin==='CHIPS'?'bc2':'bo';
-      return '<tr><td><span class="badge '+bc+'">'+coin+'</span></td><td class="'+(last?'hl':'')+'">'+(cb.length>0?cb.length+' block'+(cb.length>1?'s':'')+(last?' - '+fmtTs(last.ts):''):'none in window')+'</td></tr>';
+function renderWorkers(workers) {
+  const show = wFilter === 'all' ? workers :
+    wFilter === 'online'  ? workers.filter(w => w.status !== 'offline') :
+    workers.filter(w => w.status === 'offline');
+
+  if (show.length === 0) {
+    document.getElementById('worker-grid').innerHTML =
+      '<div style="color:var(--text2);font-size:13px;grid-column:1/-1;padding:.5rem 0">No workers found for this address on verus.farm.</div>';
+    return;
+  }
+
+  const COINS = ['VRSC', 'CHIPS', 'VARRR', 'VDEX'];
+
+  document.getElementById('worker-grid').innerHTML = show.map(w => {
+    const off  = w.status === 'offline';
+    const inv  = w.shares > 0 ? ((w.invalidshares / w.shares) * 100).toFixed(1) : '0.0';
+    const h1   = avgHr(w.name, 3600000);
+    const h24  = avgHr(w.name, 86400000);
+    const wBlocks = myBlocks.filter(b => b.worker === w.short);
+    const id   = 'wc-' + w.short.replace(/[^a-z0-9]/gi, '_');
+
+    /* use hashrateString from API for current — it's already correctly formatted */
+    const currDisplay = w.hashrateString || fmtH((w.hashrate || 0) / 500000);
+
+    /* averages use raw value divided by 500000 */
+    const h1display  = h1  !== null ? fmtH(h1  / 500000) : 'building...';
+    const h24display = h24 !== null ? fmtH(h24 / 500000) : 'building...';
+
+    const coinRows = COINS.map(coin => {
+      const cb   = wBlocks.filter(b => b.coin === coin);
+      const last = cb[0];
+      const bc   = coin === 'VRSC' ? 'bv' : coin === 'CHIPS' ? 'bc2' : 'bo';
+      const txt  = cb.length > 0
+        ? cb.length + ' block' + (cb.length > 1 ? 's' : '') + (last ? ' - ' + fmtTs(last.ts) : '')
+        : 'none in window';
+      return '<tr>' +
+        '<td><span class="badge ' + bc + '">' + coin + '</span></td>' +
+        '<td class="' + (last ? 'hl' : '') + '">' + txt + '</td>' +
+        '</tr>';
     }).join('');
-    return '<div class="wcard '+w.status+(off?' offline-pulse':'')+'" id="'+id+'" onclick="toggleWCard(\''+id+'\')">'+
-      '<div class="wcard-inner">'+
-      '<div class="wcard-top"><div class="wcard-name">'+w.short+'</div>'+
-      '<div class="wcard-st"><span class="st-'+w.status+'">'+(off?'offline '+Math.floor(w.sinceMs/60000)+'m':w.status==='warn'?'warn':'online')+'</span><div class="sdot '+w.status+'"></div></div></div>'+
-      '<div class="wgrid">'+
-      '<div class="wcell"><div class="wcell-lbl">Current</div><div class="wcell-val'+(off?' bad':'')+'">'+( w.hashrateString||fmtH(w.hashrate||0))+'</div></div>'+
-      '<div class="wcell"><div class="wcell-lbl">1hr avg</div><div class="wcell-val'+(h1===null?' dim':'')+'">'+( h1!==null?fmtH(h1):'building...')+'</div></div>'+
-      '<div class="wcell"><div class="wcell-lbl">24hr avg</div><div class="wcell-val'+(h24===null?' dim':'')+'">'+( h24!==null?fmtH(h24):'building...')+'</div></div>'+
-      '<div class="wcell"><div class="wcell-lbl">Blocks</div><div class="wcell-val ca">'+wBlocks.length+'</div></div>'+
-      '</div>'+
-      '<div class="expand-hint" id="'+id+'-hint"><i class="ti ti-chevron-down" aria-hidden="true"></i> details</div>'+
-      '</div>'+
-      '<div class="wdetail" id="'+id+'-det">'+
-      '<table>'+
-      '<tr><td>Invalid shares</td><td>'+inv+'%</td></tr>'+
-      '<tr><td>Difficulty</td><td>'+fmtH(Math.abs(w.diff||0))+'</td></tr>'+
-      '<tr><td>Round shares</td><td>'+(w.currRoundShares||0).toLocaleString()+'</td></tr>'+
-      '<tr><td>Round time</td><td>'+fmtRound(w.currRoundTime)+'</td></tr>'+
-      '<tr><td colspan="2" style="color:var(--text3);padding-top:8px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;">Blocks found (recent window)</td></tr>'+
-      coinRows+
-      '</table></div></div>';
+
+    const statusLabel = off ? 'offline ' + Math.floor(w.sinceMs / 60000) + 'm' : w.status === 'warn' ? 'warn' : 'online';
+
+    return '<div class="wcard ' + w.status + (off ? ' offline-pulse' : '') + '" id="' + id + '" onclick="toggleWCard(\'' + id + '\')">' +
+      '<div class="wcard-inner">' +
+        '<div class="wcard-top">' +
+          '<div class="wcard-name">' + w.short + '</div>' +
+          '<div class="wcard-st">' +
+            '<span class="st-' + w.status + '">' + statusLabel + '</span>' +
+            '<div class="sdot ' + w.status + '"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="wgrid">' +
+          '<div class="wcell"><div class="wcell-lbl">Current</div><div class="wcell-val' + (off ? ' bad' : '') + '">' + currDisplay + '</div></div>' +
+          '<div class="wcell"><div class="wcell-lbl">1hr avg</div><div class="wcell-val' + (h1 === null ? ' dim' : '') + '">' + h1display + '</div></div>' +
+          '<div class="wcell"><div class="wcell-lbl">24hr avg</div><div class="wcell-val' + (h24 === null ? ' dim' : '') + '">' + h24display + '</div></div>' +
+          '<div class="wcell"><div class="wcell-lbl">Blocks</div><div class="wcell-val ca">' + wBlocks.length + '</div></div>' +
+        '</div>' +
+        '<div class="expand-hint" id="' + id + '-hint"><i class="ti ti-chevron-down" aria-hidden="true"></i> details</div>' +
+      '</div>' +
+      '<div class="wdetail" id="' + id + '-det">' +
+        '<table>' +
+          '<tr><td>Invalid shares</td><td>' + inv + '%</td></tr>' +
+          '<tr><td>Difficulty</td><td>' + fmtH(Math.abs(w.diff || 0)) + '</td></tr>' +
+          '<tr><td>Round shares</td><td>' + (w.currRoundShares || 0).toLocaleString() + '</td></tr>' +
+          '<tr><td>Round time</td><td>' + fmtRound(w.currRoundTime) + '</td></tr>' +
+          '<tr><td colspan="2" style="color:var(--text3);padding-top:8px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;">Blocks found (recent window)</td></tr>' +
+          coinRows +
+        '</table>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
-function toggleWCard(id){
-  const det=document.getElementById(id+'-det');const hint=document.getElementById(id+'-hint');
-  const open=det.style.display==='block';det.style.display=open?'none':'block';
-  hint.innerHTML=open?'<i class="ti ti-chevron-down" aria-hidden="true"></i> details':'<i class="ti ti-chevron-up" aria-hidden="true"></i> close';
+function toggleWCard(id) {
+  const det  = document.getElementById(id + '-det');
+  const hint = document.getElementById(id + '-hint');
+  const open = det.style.display === 'block';
+  det.style.display  = open ? 'none' : 'block';
+  hint.innerHTML = open
+    ? '<i class="ti ti-chevron-down" aria-hidden="true"></i> details'
+    : '<i class="ti ti-chevron-up" aria-hidden="true"></i> close';
 }
 
-function processBlocks(blocks){
-  const ADDR=CFG.addr;const mine=[];
-  for(const [key,val] of Object.entries(blocks)){
-    const p=val.split(':');if(p.length<5)continue;
-    const mAddr=p[3].split('.')[0];const mWork=p[3].split('.').slice(1).join('.')||'';
-    if(mAddr!==ADDR)continue;
-    const coin=key.split('-')[0].toUpperCase();const ts=parseInt(p[4]);const blockNum=p[2];
-    mine.push({key,coin,blockNum,worker:mWork,ts});
-    if(!monFirst&&!knownBlocks.has(key)){addAlert('block','Block found! '+mWork+' - '+coin+' #'+blockNum);notify('Block found!',mWork+' found a '+coin+' block! #'+blockNum);}
+function processBlocks(blocks) {
+  const ADDR = CFG.addr;
+  const mine = [];
+  for (const [key, val] of Object.entries(blocks)) {
+    const p = val.split(':');
+    if (p.length < 5) continue;
+    const mAddr = p[3].split('.')[0];
+    const mWork = p[3].split('.').slice(1).join('.') || '';
+    if (mAddr !== ADDR) continue;
+    const coin     = key.split('-')[0].toUpperCase();
+    const ts       = parseInt(p[4]);
+    const blockNum = p[2];
+    mine.push({key, coin, blockNum, worker:mWork, ts});
+    if (!monFirst && !knownBlocks.has(key)) {
+      addAlert('block', 'Block found! ' + mWork + ' - ' + coin + ' #' + blockNum);
+      notify('Block found!', mWork + ' found a ' + coin + ' block! #' + blockNum);
+    }
     knownBlocks.add(key);
   }
-  myBlocks=mine.sort((a,b)=>b.ts-a.ts);
-  document.getElementById('f-blocks').textContent=myBlocks.length||'0';
-  const coins={};
-  myBlocks.forEach(b=>{if(!coins[b.coin])coins[b.coin]={count:0,last:null};coins[b.coin].count++;if(!coins[b.coin].last||b.ts>coins[b.coin].last.ts)coins[b.coin].last=b;});
-  const bsEl=document.getElementById('block-summary');
-  if(Object.keys(coins).length>0){
-    bsEl.style.display='grid';
-    bsEl.className='block-summary-grid';
-    bsEl.innerHTML=Object.entries(coins).map(([coin,d])=>{const bc=coin==='VRSC'?'bv':coin==='CHIPS'?'bc2':'bo';return '<div class="bcs"><div class="bcs-coin"><span class="badge '+bc+'">'+coin+'</span></div><div class="bcs-count">'+d.count+'</div><div class="bcs-last">'+(d.last?'last: '+fmtTs(d.last.ts):'-')+'</div></div>';}).join('');
-  }else{bsEl.style.display='none';}
-  if(myBlocks.length===0){document.getElementById('block-table').innerHTML='<tr><td colspan="4" class="tbl-empty">No blocks found by your miners in current data window.</td></tr>';return;}
-  document.getElementById('block-table').innerHTML=myBlocks.map(b=>{const bc=b.coin==='VRSC'?'bv':b.coin==='CHIPS'?'bc2':'bo';return '<tr><td>'+fmtTs(b.ts)+'</td><td>'+b.worker+'</td><td><span class="badge '+bc+'">'+b.coin+'</span></td><td>#'+b.blockNum+'</td></tr>';}).join('');
+
+  myBlocks = mine.sort((a, b) => b.ts - a.ts);
+  document.getElementById('f-blocks').textContent = myBlocks.length || '0';
+
+  const coins = {};
+  myBlocks.forEach(b => {
+    if (!coins[b.coin]) coins[b.coin] = {count:0, last:null};
+    coins[b.coin].count++;
+    if (!coins[b.coin].last || b.ts > coins[b.coin].last.ts) coins[b.coin].last = b;
+  });
+
+  const bsEl = document.getElementById('block-summary');
+  if (Object.keys(coins).length > 0) {
+    bsEl.style.display = 'grid';
+    bsEl.className     = 'block-summary-grid';
+    bsEl.innerHTML     = Object.entries(coins).map(([coin, d]) => {
+      const bc = coin === 'VRSC' ? 'bv' : coin === 'CHIPS' ? 'bc2' : 'bo';
+      return '<div class="bcs">' +
+        '<div class="bcs-coin"><span class="badge ' + bc + '">' + coin + '</span></div>' +
+        '<div class="bcs-count">' + d.count + '</div>' +
+        '<div class="bcs-last">' + (d.last ? 'last: ' + fmtTs(d.last.ts) : '-') + '</div>' +
+        '</div>';
+    }).join('');
+  } else {
+    bsEl.style.display = 'none';
+  }
+
+  if (myBlocks.length === 0) {
+    document.getElementById('block-table').innerHTML =
+      '<tr><td colspan="4" class="tbl-empty">No blocks found by your miners in current data window.</td></tr>';
+    return;
+  }
+  document.getElementById('block-table').innerHTML = myBlocks.map(b => {
+    const bc = b.coin === 'VRSC' ? 'bv' : b.coin === 'CHIPS' ? 'bc2' : 'bo';
+    return '<tr>' +
+      '<td>' + fmtTs(b.ts) + '</td>' +
+      '<td>' + b.worker + '</td>' +
+      '<td><span class="badge ' + bc + '">' + b.coin + '</span></td>' +
+      '<td>#' + b.blockNum + '</td>' +
+      '</tr>';
+  }).join('');
 }
 
-function setWFilter(f,btn){wFilter=f;document.querySelectorAll('#worker-sec .sm-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');monPoll(false);}
+function setWFilter(f, btn) {
+  wFilter = f;
+  document.querySelectorAll('#worker-sec .sm-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  monPoll(false);
+}
 
-let histTxs=[],histChart30=null,histChart180=null,histTxFilter=7;
+/* ── history ── */
+let histTxs = [], histChart30 = null, histChart180 = null, histTxFilter = 7;
 
-function histInit(){
-  if(CFG.addr)document.getElementById('hist-addr').value=CFG.addr;
+function histInit() {
+  if (CFG.addr) document.getElementById('hist-addr').value = CFG.addr;
   initHistDates(90);
-  if(!CFG.corsOk&&!CFG.corsSkip)document.getElementById('hist-cors-warn').style.display='block';
+  if (!CFG.corsOk && !CFG.corsSkip) document.getElementById('hist-cors-warn').style.display = 'block';
 }
-function initHistDates(days){
-  const to=new Date();document.getElementById('hist-to').value=to.toISOString().slice(0,10);
-  if(days>0){const f=new Date();f.setDate(f.getDate()-days);document.getElementById('hist-from').value=f.toISOString().slice(0,10);}
-  else document.getElementById('hist-from').value='';
-}
-function setPreset(days,btn){document.querySelectorAll('.preset-btns .sm-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');initHistDates(days);}
 
-async function histLoad(){
-  const addr=document.getElementById('hist-addr').value.trim();
-  if(!validateAddr(addr)){alert('Please enter a valid VRSC R-address');return;}
-  const fromVal=document.getElementById('hist-from').value;const toVal=document.getElementById('hist-to').value;
-  const cutoffTs=fromVal?new Date(fromVal).getTime()/1000:0;const toTs=toVal?new Date(toVal).getTime()/1000+86400:Infinity;
-  document.getElementById('hist-results').style.display='none';document.getElementById('hist-cors-warn').style.display='none';
-  document.getElementById('hist-active-addr').textContent=addr;
-  const prog=document.getElementById('hist-prog');const fill=document.getElementById('hist-prog-fill');const lbl=document.getElementById('hist-prog-lbl');
-  prog.style.display='block';fill.style.width='0%';
-  const ref=document.getElementById('hist-refresh');ref.style.display='flex';ref.classList.add('spinning');
-  try{
-    const first=await fetch(EXPLORER+'/api/txs?address='+addr+'&pageNum=0');
-    if(!first.ok)throw new Error('HTTP '+first.status);
-    const fd=await first.json();const total=fd.pagesTotal||1;let raw=[...(fd.txs||[])];
-    fill.style.width=Math.round(1/total*100)+'%';lbl.textContent='Fetching page 1 of '+total+'...';
-    for(let p=1;p<total;p++){
-      if(cutoffTs>0){const oldest=raw[raw.length-1];if(oldest&&(oldest.time||oldest.blocktime||0)<cutoffTs)break;}
-      try{const pr=await fetch(EXPLORER+'/api/txs?address='+addr+'&pageNum='+p);if(!pr.ok)break;const pd=await pr.json();raw=raw.concat(pd.txs||[]);fill.style.width=Math.round((p+1)/total*100)+'%';lbl.textContent='Fetching page '+(p+1)+' of '+total+'...';}catch(e){break;}
+function initHistDates(days) {
+  const to = new Date();
+  document.getElementById('hist-to').value = to.toISOString().slice(0,10);
+  if (days > 0) {
+    const f = new Date(); f.setDate(f.getDate() - days);
+    document.getElementById('hist-from').value = f.toISOString().slice(0,10);
+  } else {
+    document.getElementById('hist-from').value = '';
+  }
+}
+
+function setPreset(days, btn) {
+  document.querySelectorAll('.preset-btns .sm-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  initHistDates(days);
+}
+
+async function histLoad() {
+  const addr = document.getElementById('hist-addr').value.trim();
+  if (!validateAddr(addr)) { alert('Please enter a valid VRSC R-address'); return; }
+  const fromVal  = document.getElementById('hist-from').value;
+  const toVal    = document.getElementById('hist-to').value;
+  const cutoffTs = fromVal ? new Date(fromVal).getTime() / 1000 : 0;
+  const toTs     = toVal   ? new Date(toVal).getTime()   / 1000 + 86400 : Infinity;
+
+  document.getElementById('hist-results').style.display   = 'none';
+  document.getElementById('hist-cors-warn').style.display = 'none';
+  document.getElementById('hist-active-addr').textContent = addr;
+
+  const prog = document.getElementById('hist-prog');
+  const fill = document.getElementById('hist-prog-fill');
+  const lbl  = document.getElementById('hist-prog-lbl');
+  prog.style.display = 'block'; fill.style.width = '0%';
+
+  const ref = document.getElementById('hist-refresh');
+  ref.style.display = 'flex'; ref.classList.add('spinning');
+
+  try {
+    const first = await fetch(EXPLORER + '/api/txs?address=' + addr + '&pageNum=0');
+    if (!first.ok) throw new Error('HTTP ' + first.status);
+    const fd    = await first.json();
+    const total = fd.pagesTotal || 1;
+    let raw = [...(fd.txs || [])];
+    fill.style.width  = Math.round(1/total*100) + '%';
+    lbl.textContent   = 'Fetching page 1 of ' + total + '...';
+
+    for (let p = 1; p < total; p++) {
+      if (cutoffTs > 0) {
+        const oldest = raw[raw.length - 1];
+        if (oldest && (oldest.time || oldest.blocktime || 0) < cutoffTs) break;
+      }
+      try {
+        const pr = await fetch(EXPLORER + '/api/txs?address=' + addr + '&pageNum=' + p);
+        if (!pr.ok) break;
+        const pd = await pr.json();
+        raw = raw.concat(pd.txs || []);
+        fill.style.width = Math.round((p+1)/total*100) + '%';
+        lbl.textContent  = 'Fetching page ' + (p+1) + ' of ' + total + '...';
+      } catch(e) { break; }
     }
-    prog.style.display='none';
-    histTxs=parseHistTxs(raw,addr).filter(tx=>tx.ts>=cutoffTs&&tx.ts<=toTs);
-    CFG.addr=addr;saveCfg();
-    updateHistMetrics();buildHistChart('hchart30',30,histChart30,c=>histChart30=c);buildHistChart('hchart180',180,histChart180,c=>histChart180=c);updateTxTable(histTxFilter);
-    document.getElementById('hist-results').style.display='block';document.getElementById('hist-lastupd').textContent='Updated: '+new Date().toLocaleTimeString();
-  }catch(e){
-    prog.style.display='none';
-    const w=document.getElementById('hist-cors-warn');w.style.display='block';
-    w.innerHTML='<i class="ti ti-alert-circle" style="color:var(--amber)" aria-hidden="true"></i> <strong>Could not load:</strong> '+e.message+'. If this is a CORS error, <a onclick="showPage(\'setup\')">go to Setup</a> for the fix.';
+
+    prog.style.display = 'none';
+    histTxs = parseHistTxs(raw, addr).filter(tx => tx.ts >= cutoffTs && tx.ts <= toTs);
+    CFG.addr = addr; saveCfg();
+
+    updateHistMetrics();
+    buildHistChart('hchart30',  30,  histChart30,  c => { histChart30  = c; });
+    buildHistChart('hchart180', 180, histChart180, c => { histChart180 = c; });
+    updateTxTable(histTxFilter);
+
+    document.getElementById('hist-results').style.display = 'block';
+    document.getElementById('hist-lastupd').textContent   = 'Updated: ' + new Date().toLocaleTimeString();
+
+  } catch(e) {
+    prog.style.display = 'none';
+    const w = document.getElementById('hist-cors-warn');
+    w.style.display = 'block';
+    w.innerHTML = '<i class="ti ti-alert-circle" style="color:var(--amber)" aria-hidden="true"></i> ' +
+      '<strong>Could not load:</strong> ' + e.message +
+      '. If this is a CORS error, <a onclick="showPage(\'setup\')">go to Setup</a> for the fix.';
   }
   ref.classList.remove('spinning');
 }
 
-function parseHistTxs(raw,addr){
-  const result=[];
-  for(const tx of raw){let received=0;if(tx.vout)for(const v of tx.vout){if(v.scriptPubKey&&v.scriptPubKey.addresses&&v.scriptPubKey.addresses.includes(addr))received+=parseFloat(v.value||0);}if(received>0)result.push({txid:tx.txid,ts:tx.time||tx.blocktime||0,amount:received,confirmations:tx.confirmations||0});}
-  result.sort((a,b)=>b.ts-a.ts);return result;
+function parseHistTxs(raw, addr) {
+  const result = [];
+  for (const tx of raw) {
+    let received = 0;
+    if (tx.vout) {
+      for (const v of tx.vout) {
+        if (v.scriptPubKey && v.scriptPubKey.addresses && v.scriptPubKey.addresses.includes(addr)) {
+          received += parseFloat(v.value || 0);
+        }
+      }
+    }
+    if (received > 0) result.push({txid:tx.txid, ts:tx.time||tx.blocktime||0, amount:received, confirmations:tx.confirmations||0});
+  }
+  result.sort((a, b) => b.ts - a.ts);
+  return result;
 }
-function buildDayMap(){const m={};histTxs.forEach(tx=>{const k=dayKey(tx.ts);m[k]=(m[k]||0)+tx.amount;});return m;}
-function updateHistMetrics(){
-  const tk=todayKey(),s7=startOfDayAgo(7),s30=startOfDayAgo(30);
-  let today=0,w=0,m=0;const dm={};
-  histTxs.forEach(tx=>{const dk=dayKey(tx.ts);dm[dk]=(dm[dk]||0)+tx.amount;if(dk===tk)today+=tx.amount;if(tx.ts>=s7)w+=tx.amount;if(tx.ts>=s30)m+=tx.amount;});
-  const ad=Object.keys(dm).filter(k=>new Date(k+'T12:00:00').getTime()/1000>=s30).length;
-  document.getElementById('hm-today').textContent=fmtNum(today);document.getElementById('hm-7d').textContent=fmtNum(w);document.getElementById('hm-30d').textContent=fmtNum(m);document.getElementById('hm-avg').textContent=fmtNum(ad>0?m/ad:0);
+
+function buildDayMap() {
+  const m = {};
+  histTxs.forEach(tx => { const k = dayKey(tx.ts); m[k] = (m[k] || 0) + tx.amount; });
+  return m;
 }
-function buildHistChart(id,days,existing,setRef){
-  const dm=buildDayMap(),labels=[],data=[];
-  for(let i=days-1;i>=0;i--){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);const k=dayKey(d.getTime()/1000);labels.push(days<=30?d.toLocaleDateString('en-US',{month:'short',day:'numeric'}):d.getDate()===1?d.toLocaleDateString('en-US',{month:'short',year:'2-digit'}):'');data.push(parseFloat((dm[k]||0).toFixed(4)));}
-  if(existing)existing.destroy();
-  const newChart=new Chart(document.getElementById(id).getContext('2d'),{type:'line',data:{labels,datasets:[{label:'VRSC/day',data,borderColor:'#1D9E75',borderWidth:1.8,pointRadius:days<=30?3:0,pointHoverRadius:5,pointBackgroundColor:'#1D9E75',fill:true,backgroundColor:'rgba(29,158,117,0.08)',tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y.toFixed(4)+' VRSC'}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#888780',autoSkip:false,maxRotation:days<=30?45:0}},y:{grid:{color:'rgba(255,255,255,0.06)'},ticks:{font:{size:10},color:'#888780',callback:v=>v.toFixed(1)},beginAtZero:true}}}});
+
+function updateHistMetrics() {
+  const tk = todayKey(), s7 = startOfDayAgo(7), s30 = startOfDayAgo(30);
+  let today = 0, w = 0, m = 0;
+  const dm = {};
+  histTxs.forEach(tx => {
+    const dk = dayKey(tx.ts); dm[dk] = (dm[dk] || 0) + tx.amount;
+    if (dk === tk)    today += tx.amount;
+    if (tx.ts >= s7)  w     += tx.amount;
+    if (tx.ts >= s30) m     += tx.amount;
+  });
+  const ad = Object.keys(dm).filter(k => new Date(k + 'T12:00:00').getTime() / 1000 >= s30).length;
+  document.getElementById('hm-today').textContent = fmtNum(today);
+  document.getElementById('hm-7d').textContent    = fmtNum(w);
+  document.getElementById('hm-30d').textContent   = fmtNum(m);
+  document.getElementById('hm-avg').textContent   = fmtNum(ad > 0 ? m / ad : 0);
+}
+
+function buildHistChart(id, days, existing, setRef) {
+  const dm = buildDayMap(), labels = [], data = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate() - i);
+    const k = dayKey(d.getTime() / 1000);
+    labels.push(days <= 30
+      ? d.toLocaleDateString('en-US', {month:'short', day:'numeric'})
+      : (d.getDate() === 1 ? d.toLocaleDateString('en-US', {month:'short', year:'2-digit'}) : ''));
+    data.push(parseFloat((dm[k] || 0).toFixed(4)));
+  }
+  if (existing) existing.destroy();
+  const newChart = new Chart(document.getElementById(id).getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [{
+      label: 'VRSC/day', data,
+      borderColor: '#1D9E75', borderWidth: 1.8,
+      pointRadius: days <= 30 ? 3 : 0, pointHoverRadius: 5, pointBackgroundColor: '#1D9E75',
+      fill: true, backgroundColor: 'rgba(29,158,117,0.08)', tension: .35
+    }]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: {display:false}, tooltip: {callbacks: {label: c => c.parsed.y.toFixed(4) + ' VRSC'}} },
+      scales: {
+        x: { grid: {display:false}, ticks: {font:{size:10}, color:'#888780', autoSkip:false, maxRotation: days <= 30 ? 45 : 0} },
+        y: { grid: {color:'rgba(255,255,255,0.06)'}, ticks: {font:{size:10}, color:'#888780', callback: v => v.toFixed(1)}, beginAtZero:true }
+      }
+    }
+  });
   setRef(newChart);
 }
-function setTxFilter(n,btn){histTxFilter=n;document.querySelectorAll('#page-history .sec-hdr .sm-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');updateTxTable(n);}
-function updateTxTable(days){
-  const cutoff=days>0?startOfDayAgo(days):0;const filtered=days>0?histTxs.filter(tx=>tx.ts>=cutoff):histTxs;const tk=todayKey();
-  if(filtered.length===0){document.getElementById('tx-table').innerHTML='<tr><td colspan="4" class="tbl-empty">No transactions in this range.</td></tr>';document.getElementById('tx-page-info').textContent='';return;}
-  document.getElementById('tx-table').innerHTML=filtered.slice(0,200).map(tx=>{const isToday=dayKey(tx.ts)===tk;const short=tx.txid?tx.txid.slice(0,12)+'...'+tx.txid.slice(-6):'-';return '<tr'+(isToday?' style="background:var(--gf)"':'')+'><td>'+new Date(tx.ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})+(isToday?' <span style="font-size:10px;color:var(--green)">+</span>':'')+'</td><td class="amount-pos">+'+tx.amount.toFixed(4)+'</td><td><a class="txid-link" href="https://insight.verus.io/tx/'+tx.txid+'" target="_blank" rel="noopener">'+short+'</a></td><td>'+(tx.confirmations>0?'<span class="badge-ok">confirmed</span>':'<span class="badge-pend">pending</span>')+'</td></tr>';}).join('');
-  document.getElementById('tx-page-info').textContent='Showing '+Math.min(filtered.length,200)+' of '+filtered.length+' transactions';
+
+function setTxFilter(n, btn) {
+  histTxFilter = n;
+  document.querySelectorAll('#page-history .sec-hdr .sm-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  updateTxTable(n);
 }
 
-function prefillFromCfg(){
-  if(CFG.addr){document.getElementById('setupAddr').value=CFG.addr;document.getElementById('mon-addr-in').value=CFG.addr;document.getElementById('hist-addr').value=CFG.addr;onSetupAddrInput();}
-  if(CFG.monThr)document.getElementById('mon-thr').value=CFG.monThr;
-  if(CFG.monPoll)document.getElementById('mon-poll').value=CFG.monPoll;
+function updateTxTable(days) {
+  const cutoff   = days > 0 ? startOfDayAgo(days) : 0;
+  const filtered = days > 0 ? histTxs.filter(tx => tx.ts >= cutoff) : histTxs;
+  const tk       = todayKey();
+  if (filtered.length === 0) {
+    document.getElementById('tx-table').innerHTML      = '<tr><td colspan="4" class="tbl-empty">No transactions in this range.</td></tr>';
+    document.getElementById('tx-page-info').textContent = '';
+    return;
+  }
+  document.getElementById('tx-table').innerHTML = filtered.slice(0, 200).map(tx => {
+    const isToday = dayKey(tx.ts) === tk;
+    const short   = tx.txid ? tx.txid.slice(0,12) + '...' + tx.txid.slice(-6) : '-';
+    return '<tr' + (isToday ? ' style="background:var(--gf)"' : '') + '>' +
+      '<td>' + new Date(tx.ts*1000).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'}) +
+        (isToday ? ' <span style="font-size:10px;color:var(--green)">+</span>' : '') + '</td>' +
+      '<td class="amount-pos">+' + tx.amount.toFixed(4) + '</td>' +
+      '<td><a class="txid-link" href="https://insight.verus.io/tx/' + tx.txid + '" target="_blank" rel="noopener">' + short + '</a></td>' +
+      '<td>' + (tx.confirmations > 0 ? '<span class="badge-ok">confirmed</span>' : '<span class="badge-pend">pending</span>') + '</td>' +
+      '</tr>';
+  }).join('');
+  document.getElementById('tx-page-info').textContent =
+    'Showing ' + Math.min(filtered.length, 200) + ' of ' + filtered.length + ' transactions';
 }
 
-window.addEventListener('load',()=>{
-  loadCfg();prefillFromCfg();initHistDates(90);
-  if(CFG.addr&&validateAddr(CFG.addr)){
-    fetch(EXPLORER+'/api/txs?address='+CFG.addr+'&pageNum=0',{signal:AbortSignal.timeout(5000)}).then(r=>{if(r.ok){CFG.corsOk=true;saveCfg();}}).catch(()=>{}).finally(()=>{showPage('monitor');startMonitor();});
+/* ── prefill & init ── */
+function prefillFromCfg() {
+  if (CFG.addr) {
+    document.getElementById('setupAddr').value    = CFG.addr;
+    document.getElementById('mon-addr-in').value  = CFG.addr;
+    document.getElementById('hist-addr').value    = CFG.addr;
+    onSetupAddrInput();
+  }
+  if (CFG.monThr)  document.getElementById('mon-thr').value  = CFG.monThr;
+  if (CFG.monPoll) document.getElementById('mon-poll').value = CFG.monPoll;
+}
+
+window.addEventListener('load', () => {
+  loadCfg(); prefillFromCfg(); initHistDates(90);
+  if (CFG.addr && validateAddr(CFG.addr)) {
+    fetch(EXPLORER + '/api/txs?address=' + CFG.addr + '&pageNum=0', {signal: AbortSignal.timeout(5000)})
+      .then(r => { if (r.ok) { CFG.corsOk = true; saveCfg(); } })
+      .catch(() => {})
+      .finally(() => { showPage('monitor'); startMonitor(); });
   }
 });
 </script>
