@@ -2,7 +2,7 @@
 
 A self-contained HTML tracker for VRSC miners. No installation, no server, no dependencies — just open the file in a browser.
 
-**Live demo:** https://blackshirt-crypto.github.io/verus-tracker-html/verus-tracker.html
+**Live demo:** https://blackshirt-crypto.github.io/verus-tracker-html/verus-tracker-v1.0.html
 
 ---
 
